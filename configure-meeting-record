@@ -1,0 +1,209 @@
+
+Create an AWS Cloud9 environment
+Log into the AWS console with your AWS credentials and go to the AWS Cloud9 Console.
+If you have previously set up a AWS Cloud9 environment in your account you can use it and skip this step entirely.
+Press the Create environment button or go here.
+For the Name enter and press the Next step button.
+For Environment Settings
+For Instance Type, select Other instance type and select t3.medium from the dropdown.
+For Platform, select Ubuntu Server 18.04 LTS
+Press the Next step button.
+Review the Environment name and settings and press the Create environment button. You can optionally use your own Amazon EC2 instance if you have configured.
+Wait for the environment to start.
+
+
+
+
+username: samuel3283@gmail.com
+acces key id:AKIA2IKR2HEIMDMMZMEU
+secret acces key: RRJPTit4B7d6Ukr3q3Sh8dxbrlybPRYhQQd27lB9
+temporal password: uSn00V=O^P_d
+12:50
+https://705083095312.signin.aws.amazon.com/console Ruta para Login
+
+
+aws ecr create-repository --repository-name meeting-record
+
+{
+    "repository": {
+        "registryId": "705083095312", 
+        "repositoryName": "meeting-record", 
+        "repositoryArn": "arn:aws:ecr:us-east-1:705083095312:repository/meeting-record", 
+        "createdAt": 1587619569.0, 
+        "repositoryUri": "705083095312.dkr.ecr.us-east-1.amazonaws.com/meeting-record"
+    }
+}
+
+cd /home/ec2-user/environment
+git clone https://github.com/aws-samples/amazon-chime-sdk-recording-demo.git
+cd amazon-chime-sdk-recording-demo
+
+
+sudo rm -rf /usr/bin/aws
+ln -s /usr/local/aws-cli/v2/current/bin/aws /usr/bin/aws
+aws configure
+
+make ECR_REPO_URI=<repositoryUri>
+make ECR_REPO_URI=705083095312.dkr.ecr.us-east-1.amazonaws.com/meeting-record
+SOLO PARA MAKE SE USO AWS CLI 2
+
+
+node ./deploy.js -b <my-bucket> -s <my-stack> -i <my-docker-image-uri> -r <region>
+Here is an example:
+
+node ./deploy.js -b recording-demo-cnf-deploy-bucket -s recording-demo-cnf-stack -i 123456789012.dkr.ecr.us-east-1.amazonaws.com/recording-demo:latest -r us-east-1
+
+node ./deploy.js -b bucket-meet-recording -s meet-record-stack -i 705083095312.dkr.ecr.us-east-1.amazonaws.com/meeting-record:latest -r us-east-1
+
+
+node ./deploy.js -b record-meeting -s record-meeting-stack -i 705083095312.dkr.ecr.us-east-1.amazonaws.com/meeting-record:latest -r us-east-1
+
+chime-meeting-sdk-705083095312-us-east-1-recording-artifacts
+																		   
+
+Create
+https://dj4tjrexyj.execute-api.us-east-1.amazonaws.com/Prod/recording
+
+
+SERVICIO START RECORD 
+URI:  https://dj4tjrexyj.execute-api.us-east-1.amazonaws.com/Prod/recording
+
+REQUEST
+
+Authorizartion:
+AccessKey: AKIA2IKR2HEIMDMMZMEU
+SecretKey: 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
+Region: us-east-1
+
+Params
+recordingAction=start
+meetingURL=https%3A%2F%2Fbucket-meeting.s3-us-west-1.amazonaws.com%2Findex.html%3Fm%3DROOM6666
+
+meetingURL  es la URL de la reunión y debe ser Encode en siguiente página
+https://www.url-encode-decode.com/
+
+RESPONSE:
+taskId:  arn:aws:ecs:us-east-1:705083095312:task/6c8f11bf-84b0-4f16-88ea-c5d9d4afe7e2
+
+
+
+SERVICIO STOP RECORD 
+URI:  https://dj4tjrexyj.execute-api.us-east-1.amazonaws.com/Prod/recording
+
+REQUEST
+
+Authorizartion:
+AccessKey: AKIA2IKR2HEIMDMMZMEU
+SecretKey: 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
+Region: us-east-1
+
+Params
+recordingAction=stop
+taskId=arn:aws:ecs:us-east-1:705083095312:task/6c8f11bf-84b0-4f16-88ea-c5d9d4afe7e2
+
+RESPONSE:
+{
+    "task": {
+        "attachments": [],
+        "availabilityZone": "us-east-1a",
+        "clusterArn": "arn:aws:ecs:us-east-1:705083095312:cluster/RecordingDemoEC2Cluster",
+        "connectivity": "CONNECTED",
+        "connectivityAt": "2020-04-23T11:51:27.856Z",
+        "containerInstanceArn": "arn:aws:ecs:us-east-1:705083095312:container-instance/c9ce64c1-c0b9-4a94-8e3a-182c92aa61a8",
+        "containers": [
+            {
+                "containerArn": "arn:aws:ecs:us-east-1:705083095312:container/a1edd223-a48f-4a3e-bbe9-f6fdc66d2a10",
+                "taskArn": "arn:aws:ecs:us-east-1:705083095312:task/6c8f11bf-84b0-4f16-88ea-c5d9d4afe7e2",
+                "name": "recording-demo-container",
+                "image": "705083095312.dkr.ecr.us-east-1.amazonaws.com/meeting-record:latest",
+                "imageDigest": "sha256:eb84a48128f75ded81afb894696e6b1266b83a547523bdacd6209f4ffe43af55",
+                "runtimeId": "9f3311195f82ed00be094d5b09b4a53c6f6138cc683863247f8991fa8dd915a6",
+                "lastStatus": "RUNNING",
+                "networkBindings": [],
+                "networkInterfaces": [],
+                "cpu": "4096",
+                "memory": "8192",
+                "memoryReservation": "8192"
+            }
+        ],
+        "cpu": "4096",
+        "createdAt": "2020-04-23T11:51:27.856Z",
+        "desiredStatus": "STOPPED",
+        "group": "family:meet-record-stack-ECSRecordingDemoTaskDefinition-DEW3TQILUF8Z",
+        "lastStatus": "RUNNING",
+        "launchType": "EC2",
+        "memory": "8192",
+        "overrides": {
+            "containerOverrides": [
+                {
+                    "name": "recording-demo-container",
+                    "environment": [
+                        {
+                            "name": "MEETING_URL",
+                            "value": "https://bucket-meeting.s3-us-west-1.amazonaws.com/index.html?m=ROOM6666"
+                        },
+                        {
+                            "name": "RECORDING_ARTIFACTS_BUCKET",
+                            "value": "chime-meeting-sdk-705083095312-us-east-1-recording-artifacts"
+                        }
+                    ]
+                }
+            ],
+            "inferenceAcceleratorOverrides": []
+        },
+        "pullStartedAt": "2020-04-23T11:51:28.130Z",
+        "pullStoppedAt": "2020-04-23T11:51:46.130Z",
+        "startedAt": "2020-04-23T11:51:53.130Z",
+        "stopCode": "UserInitiated",
+        "stoppedReason": "Task stopped by user",
+        "stoppingAt": "2020-04-23T11:52:41.874Z",
+        "tags": [],
+        "taskArn": "arn:aws:ecs:us-east-1:705083095312:task/6c8f11bf-84b0-4f16-88ea-c5d9d4afe7e2",
+        "taskDefinitionArn": "arn:aws:ecs:us-east-1:705083095312:task-definition/meet-record-stack-ECSRecordingDemoTaskDefinition-DEW3TQILUF8Z:1",
+        "version": 3
+    }
+}
+
+
+RESULTADO
+Video cargado en el Bucket: chime-meeting-sdk-705083095312-us-east-1-recording-artifacts
+https://chime-meeting-sdk-705083095312-us-east-1-recording-artifacts.s3.amazonaws.com/2020/4/23/11/2020-04-23T11%3A51%3A54.mp4
+
+
+
+
+ARQUITECTURA ECS  Fargate (Ejecuta container sin tener qiue administrarlos)
+ECS
+https://docs.aws.amazon.com/es_es/AmazonECS/latest/developerguide/Welcome.html
+
+Fargate
+https://aws.amazon.com/es/fargate/
+
+por CPU virtual por hora	0,04048 USD
+por GB por hora				0,004445 USD
+
+
+Precio ECS con EC2
+https://aws.amazon.com/es/ec2/pricing/on-demand/
+t3.xlarge	4	Variable	16 GiB		0,1664 USD por hora
+
+x 12 hrs  1.99
+
+https://aws.amazon.com/es/ecs/
+
+
+
+
+
+
+ERROR START
+{
+    "message": "No Container Instances were found in your cluster.",
+    "code": "InvalidParameterException",
+    "time": "2020-04-24T13:03:13.078Z",
+    "requestId": "f5f89269-15a9-49cf-bc0a-b23b8bf781ec",
+    "statusCode": 400,
+    "retryable": false,
+    "retryDelay": 98.3431603091645
+}
+
