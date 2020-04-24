@@ -76,7 +76,7 @@ Resources:
     Properties:
         AccessControl: BucketOwnerFullControl
         BucketName:
-          Fn::Join: ['', ['chime-record-meeting-sdk-', {Ref: 'AWS::AccountId'}, '-', {Ref: 'AWS::Region'}, '-record-artifacts']]
+          Fn::Join: ['', ['rec-meet', {Ref: 'AWS::AccountId'}, '-', {Ref: 'AWS::Region'}, '-records']]
   RecordingDemoLambdaExecutionRole:
     Type: AWS::IAM::Role
     Properties:

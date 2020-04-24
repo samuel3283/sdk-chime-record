@@ -38,6 +38,9 @@ cd /home/ec2-user/environment
 git clone https://github.com/aws-samples/amazon-chime-sdk-recording-demo.git
 cd amazon-chime-sdk-recording-demo
 
+git clone https://github.com/samuel3283/sdk-chime-record.git
+cd sdk-chime-record
+
 
 sudo rm -rf /usr/bin/aws
 ln -s /usr/local/aws-cli/v2/current/bin/aws /usr/bin/aws
@@ -58,7 +61,7 @@ node ./deploy.js -b bucket-meet-recording -s meet-record-stack -i 705083095312.d
 
 node ./deploy.js -b record-meeting -s record-meeting-stack -i 705083095312.dkr.ecr.us-east-1.amazonaws.com/meeting-record:latest -r us-east-1
 
-chime-meeting-sdk-705083095312-us-east-1-recording-artifacts
+node ./deploy.js -b aws-record-meeting -s aws-record-meeting-stack -i 705083095312.dkr.ecr.us-east-1.amazonaws.com/meeting-record:latest -r us-east-1
 																		   
 
 Create
